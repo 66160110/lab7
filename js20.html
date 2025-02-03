@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ตัวอย่างที่ 20</title>
+</head>
+<body>
+<div id="example20">
+<h3>20. รายการสิ่งที่ต้องทํา (เก็บข้อมูลใน Local Storage)</h3>
+<input type="text" id="todoInput" placeholder="เพิ่มรายการ..." />
+<button onclick="addTodo()">เพิ่ม</button>
+<ul id="todoList"></ul>
+<style>
+#todoList li {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+.done {
+  text-decoration: line-through;
+  color: #888;
+}
+</style>
+<script>
+// โหลดข้อมูลจาก Local Storage
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+// แสดงรายการทั้งหมด
+function displayTodos() {
+    const list = document.getElementById("todoList");
+    list.innerHTML = "";
+    todos.forEach((todo, index) => {
+        const li = document.createElement("li");
+        // สร้าง checkbox
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = todo.done;
+        checkbox.onchange = () => toggleTodo(index);
+        // สร้าง span สำหรับข้อความ
+        const span = document.createElement("span");
+        span.textContent = todo.text;
+        if (todo.done) span.classList.add("done");
+
+        // สร้างปุ่มลบ
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "ลบ";
+        deleteBtn.onclick = () => deleteTodo(index);
+
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(deleteBtn);
+        list.appendChild(li);
+    });
+}
+
+// ฟังก์ชันเพิ่มรายการสิ่งที่ต้องทำ
+function addTodo() {
+    const input = document.getElementById("todoInput");
+    const todoText = input.value.trim();
+    if (todoText !== "") {
+        todos.push({ text: todoText, done: false });
+        localStorage.setItem("todos", JSON.stringify(todos));
+        input.value = ""; // ล้างค่า input
+        displayTodos(); // แสดงผลรายการใหม่
+    }
+}
+
+// ฟังก์ชันเปลี่ยนสถานะรายการ
+function toggleTodo(index) {
+    todos[index].done = !todos[index].done;
+    localStorage.setItem("todos", JSON.stringify(todos));
+    displayTodos();
+}
+
+// ฟังก์ชันลบรายการ
+function deleteTodo(index) {
+    todos.splice(index, 1);
+    localStorage.setItem("todos", JSON.stringify(todos));
+    displayTodos();
+}
+
+// แสดงรายการเมื่อโหลดหน้า
+displayTodos();
+</script>
+</div>
+</body>
+</html>

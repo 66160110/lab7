@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ตัวอย่างที่ 3</title>
+</head>
+<body>
+<!-- สร้าง input field สําหรับตัวเลข -->
+<input type="number" id="num1" placeholder="ตัวเลขที่ 1" />
+<input type="number" id="num2" placeholder="ตัวเลขที่ 2" />
+<button onclick="calculate()">คำนวณ</button>
+<p id="result"></p>
+<script>
+// ฟังก์ชันการคํานวณผลรวมของสองตัวเลข
+function calculate() {
+    let num1 = parseFloat(document.getElementById("num1").value);
+    let num2 = parseFloat(document.getElementById("num2").value);
+    let sum = num1 + num2;
+    document.getElementById("result").textContent = "ผลรวมคือ: " + sum;
+}
+</script>
+</body>
+</html>
